@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revision Priority — IBDP Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.input-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px;margin-bottom:1.5rem}
+.sub-input-card{background:var(--bg3);border:1px solid var(--bd);border-radius:14px;padding:1.25rem;transition:border-color .2s}
+.sub-input-card:hover{border-color:var(--bd2)}
+.sub-input-card.filled{border-color:var(--bd2)}
+.sic-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sic-name{font-size:13px;font-weight:600}
+.sic-grade{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0}
+.sic-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sic-field label{display:block;font-size:10px;color:var(--tx3);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.sic-field input{width:100%;padding:8px 10px;background:var(--bg2);border:1px solid var(--bd);border-radius:7px;color:var(--tx);font-size:13px;font-family:'DM Mono',monospace;transition:border-color .15s}
+.sic-field input:focus{outline:none;border-color:var(--ac)}
+.sic-field input::placeholder{color:var(--tx3)}
+
+.add-sub-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:1.25rem;border:1.5px dashed var(--bd2);border-radius:14px;background:transparent;color:var(--tx3);font-size:13px;font-family:'Sora',sans-serif;font-weight:500;cursor:pointer;transition:all .2s;width:100%}
+.add-sub-btn:hover{border-color:var(--ac);color:var(--ac2);background:rgba(124,109,250,0.04)}
+
+/* Subject search modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.modal{background:var(--bg2);border:1px solid var(--bd2);border-radius:18px;padding:1.5rem;width:100%;max-width:540px;max-height:80vh;display:flex;flex-direction:column}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:12px;color:var(--tx)}
+.modal-srch{width:100%;padding:10px 13px;background:var(--bg3);border:1px solid var(--bd);border-radius:10px;color:var(--tx);font-size:14px;font-family:'Sora',sans-serif;margin-bottom:12px}
+.modal-srch:focus{outline:none;border-color:var(--ac)}
+.modal-srch::placeholder{color:var(--tx3)}
+.modal-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;overflow-y:auto;flex:1}
+.modal-chips::-webkit-scrollbar{width:3px}
+.modal-chips::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+.mchip{padding:9px 12px;border-radius:8px;border:1.5px solid transparent;cursor:pointer;font-size:12px;font-weight:500;transition:all .15s}
+.mchip:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.modal-close{margin-top:12px}
+
+/* Priority results */
+.priority-list{display:flex;flex-direction:column;gap:10px}
+.priority-card{border-radius:14px;padding:1.25rem;border:1px solid transparent;position:relative;overflow:hidden;animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.pc-rank{position:absolute;top:1rem;right:1rem;font-size:28px;font-weight:700;font-family:'DM Mono',monospace;opacity:0.18;line-height:1}
+.pc-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.pc-name{font-size:14px;font-weight:600}
+.pc-cat{font-size:11px;opacity:.7;margin-top:2px}
+.pc-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pc-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;font-family:'DM Mono',monospace}
+.badge-grade{background:rgba(255,255,255,0.1);color:var(--tx2)}
+.badge-gain{background:rgba(34,211,160,0.15);color:var(--green)}
+.badge-neutral{background:rgba(251,191,36,0.12);color:var(--amber)}
+.badge-stuck{background:rgba(248,113,113,0.12);color:var(--red)}
+.pc-bar-wrap{margin-bottom:6px}
+.pc-bar-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--tx3);margin-bottom:4px;font-family:'DM Mono',monospace}
+.pc-bar{height:6px;border-radius:100px;background:rgba(255,255,255,0.08);overflow:hidden}
+.pc-fill{height:100%;border-radius:100px;transition:width .8s ease}
+.pc-tip{font-size:12px;opacity:.75;line-height:1.5;margin-top:8px}
+
+/* Empty state */
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--tx3)}
+.empty-icon{font-size:48px;margin-bottom:12px;opacity:.4}
+.empty-title{font-size:16px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+.empty-sub{font-size:13px;line-height:1.6}
+
+/* Info banner */
+.info-banner{background:rgba(124,109,250,0.08);border:1px solid rgba(124,109,250,0.2);border-radius:12px;padding:12px 16px;font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:1.5rem;display:flex;gap:10px;align-items:flex-start}
+.info-icon{color:var(--ac2);flex-shrink:0;margin-top:1px}
+
+.top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1.5rem}
+</style>
+</head>
+<body>
+<div id="navPlaceholder"></div>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="page-title">Revision <span>Priority</span></div>
+    <div class="page-sub">Find out which subjects give you the biggest grade jump for the least effort — so you study smarter, not harder.</div>
+  </div>
+
+  <div class="info-banner">
+    <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <div>The priority score is calculated by simulating a <strong style="color:var(--tx)">+10% improvement in SA4</strong> for each subject and measuring how many grade points that gains you. Subjects where a small improvement in SA4 crosses a grade boundary rank highest — those are your highest-leverage revision targets.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="top-bar">
+      <div>
+        <div class="c-title">Your subjects</div>
+        <div class="c-sub" style="margin-bottom:0">Enter your current SA1, SA2, SA3 marks for each subject</div>
+      </div>
+      <button class="btn pri" onclick="calcPriorities()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Calculate priorities
+      </button>
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="input-grid" id="inputGrid"></div>
+
+    <button class="add-sub-btn" onclick="openModal()" id="addBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add subject
+    </button>
+  </div>
+
+  <div id="resultsSection" style="display:none">
+    <div class="card">
+      <div class="c-title">Revision priority ranking</div>
+      <div class="c-sub">Ranked by how much your grade improves with a 10% SA4 boost. Focus on the top subjects first.</div>
+      <div class="priority-list" id="priorityList"></div>
+    </div>
+  </div>
+
+  <div id="emptyResults" style="display:none">
+    <div class="card">
+      <div class="empty-state">
+        <div class="empty-icon">&#128200;</div>
+        <div class="empty-title">Add at least one subject with marks to get started</div>
+        <div class="empty-sub">Enter your current SA marks above, then hit Calculate priorities.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Subject picker modal -->
+<div class="modal-overlay" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">Pick a subject</div>
+    <input class="modal-srch" type="text" placeholder="Search..." oninput="filterModal(this.value)" id="modalSrch">
+    <div class="modal-chips" id="modalChips"></div>
+    <button class="btn modal-close" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<div id="footPlaceholder"></div>
+<script src="shared.js"></script>
+<script>
+document.getElementById('navPlaceholder').innerHTML = buildNav('priorities.html');
+document.getElementById('footPlaceholder').innerHTML = buildFooter();
+
+let subs = [];
+const MAX_SUBS = 6;
+
+/* Try loading from calculator localStorage */
+function tryLoadFromCalc() {
+  try {
+    const saved = localStorage.getItem('ibdp_subs');
+    if (!saved) return;
+    const parsed = JSON.parse(saved);
+    const valid = parsed.filter(s => s && s.name);
+    if (valid.length > 0) {
+      subs = valid.map(s => ({ name: s.name, sa1: s.sa1 || '', sa2: s.sa2 || '', sa3: s.sa3 || '', sa4: s.sa4 || '', ia: s.ia || '' }));
+      renderInputs();
+    }
+  } catch(e) {}
+}
+
+function renderInputs() {
+  const grid = document.getElementById('inputGrid');
+  const addBtn = document.getElementById('addBtn');
+  grid.innerHTML = subs.map((s, i) => {
+    const c = colOf(s.name);
+    const pct = calcW(s);
+    const g = BOUNDS[s.name] ? getGrade(pct, BOUNDS[s.name]) : 0;
+    const hasMark = s.sa1 || s.sa2 || s.sa3;
+    return `<div class="sub-input-card${hasMark ? ' filled' : ''}" style="border-color:${hasMark ? c.bo : ''}">
+      <div class="sic-top">
+        <div>
+          <div class="sic-name" style="color:${c.tx}">${s.name}</div>
+          <div style="font-size:10px;color:var(--tx3);margin-top:2px">${CAT_NAMES[catOf(s.name)]}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          ${g > 0 ? `<div class="sic-grade gc${g}">${g}</div>` : ''}
+          <button onclick="removeSub(${i})" style="background:none;border:none;cursor:pointer;color:var(--tx3);padding:4px;transition:color .15s" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--tx3)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="sic-fields">
+        <div class="sic-field"><label>SA1 <span style="color:var(--tx3)">%</span></label><input type="number" min="0" max="100" step="0.1" value="${s.sa1}" placeholder="0-100" oninput="updateMark(${i},'sa1',this.value)"></div>
+        <div class="sic-field"><label>SA2 <span style="color:var(--tx3)">%</span></label><input type="number" min="0" max="100" step="0.1" value="${s.sa2}" placeholder="0-100" oninput="updateMark(${i},'sa2',this.value)"></div>
+        <div class="sic-field"><label>SA3 <span style="color:var(--tx3)">%</span></label><input type="number" min="0" max="100" step="0.1" value="${s.sa3}" placeholder="0-100" oninput="updateMark(${i},'sa3',this.value)"></div>
+        <div class="sic-field"><label>SA4 <span style="color:var(--tx3)">%</span></label><input type="number" min="0" max="100" step="0.1" value="${s.sa4}" placeholder="0-100" oninput="updateMark(${i},'sa4',this.value)"></div>
+      </div>
+    </div>`;
+  }).join('');
+  addBtn.style.display = subs.length >= MAX_SUBS ? 'none' : 'flex';
+}
+
+function updateMark(i, field, val) {
+  const n = parseFloat(val);
+  subs[i][field] = isNaN(n) ? '' : Math.min(100, Math.max(0, n)).toString();
+  renderInputs();
+}
+
+function removeSub(i) {
+  subs.splice(i, 1);
+  renderInputs();
+  document.getElementById('resultsSection').style.display = 'none';
+}
+
+function openModal() {
+  document.getElementById('modal').style.display = 'flex';
+  document.getElementById('modalSrch').value = '';
+  renderModalChips('');
+  setTimeout(() => document.getElementById('modalSrch').focus(), 50);
+}
+function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+function renderModalChips(filter) {
+  const taken = subs.map(s => s.name);
+  const names = filter ? ALL_SUBJECTS.filter(n => n.toLowerCase().includes(filter.toLowerCase())) : ALL_SUBJECTS;
+  document.getElementById('modalChips').innerHTML = names.map(name => {
+    const c = colOf(name);
+    const dis = taken.includes(name);
+    const esc = name.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    return `<div class="mchip${dis ? ' dis' : ''}" style="background:${c.bg};border-color:transparent;opacity:${dis ? 0.35 : 1};cursor:${dis ? 'not-allowed' : 'pointer'}" data-name="${esc}" onclick="${dis ? '' : 'pickSubject(this)'}">
+      <span style="color:${c.tx}">${name}</span>
+    </div>`;
+  }).join('');
+}
+
+function filterModal(val) { renderModalChips(val); }
+
+function pickSubject(el) {
+  const name = el.dataset.name.replace(/&amp;/g,'&').replace(/&quot;/g,'"');
+  subs.push({ name, sa1:'', sa2:'', sa3:'', sa4:'', ia:'' });
+  closeModal();
+  renderInputs();
+}
+
+function calcPriorities() {
+  const valid = subs.filter(s => s.name && BOUNDS[s.name] && (s.sa1||s.sa2||s.sa3||s.sa4));
+  document.getElementById('resultsSection').style.display = 'none';
+  document.getElementById('emptyResults').style.display = 'none';
+
+  if (!valid.length) {
+    document.getElementById('emptyResults').style.display = 'block';
+    document.getElementById('emptyResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  const results = valid.map(s => calcPriority(s)).filter(Boolean);
+
+  /* Sort: subjects where SA4 boost gains a grade first, then by pts to next grade boundary */
+  results.sort((a, b) => {
+    if (b.gradeGain !== a.gradeGain) return b.gradeGain - a.gradeGain;
+    return a.ptsToNext - b.ptsToNext;
+  });
+
+  const maxEff = Math.max(...results.map(r => r.efficiency), 0.01);
+
+  const list = document.getElementById('priorityList');
+  list.innerHTML = results.map((r, i) => {
+    const c = colOf(r.name);
+    const delay = i * 0.06;
+    const barWidth = Math.max(4, (r.efficiency / maxEff) * 100);
+
+    let gainBadge, tipText;
+    if (r.gradeGain >= 1) {
+      gainBadge = `<span class="pc-badge badge-gain">+${r.gradeGain} grade${r.gradeGain>1?'s':''} with +10% SA4</span>`;
+      tipText = `A 10% improvement in SA4 pushes you from a <strong>${r.curG}</strong> to a <strong>${r.newG}</strong>. This is your highest leverage right now  -  prioritise it.`;
+    } else if (r.ptsToNext < 8) {
+      gainBadge = `<span class="pc-badge badge-neutral">Close to next grade (${r.ptsToNext.toFixed(1)}% away)</span>`;
+      tipText = `You need <strong>${r.ptsToNext.toFixed(1)}%</strong> more to reach grade ${r.curG + 1}. You're very close  -  a strong SA4 can push you over.`;
+    } else {
+      gainBadge = `<span class="pc-badge badge-stuck">${r.ptsToNext.toFixed(1)}% to next grade</span>`;
+      tipText = `You're currently at ${r.curPct.toFixed(1)}% (grade ${r.curG}). There's work to do, but sustained effort in SA4 will get you there.`;
+    }
+
+    return `<div class="priority-card" style="background:${c.bg};border-color:${c.bo};animation-delay:${delay}s">
+      <div class="pc-rank">${i+1}</div>
+      <div class="pc-top">
+        <div class="g-pill gc${r.curG}">${r.curG}</div>
+        <div>
+          <div class="pc-name" style="color:${c.tx}">${r.name}</div>
+          <div class="pc-cat" style="color:${c.tx}">${CAT_NAMES[catOf(r.name)]} &middot; Current: ${r.curPct.toFixed(1)}%</div>
+        </div>
+      </div>
+      <div class="pc-badges">${gainBadge}</div>
+      <div class="pc-bar-wrap">
+        <div class="pc-bar-lbl"><span style="color:${c.tx}">Priority score</span><span style="color:${c.tx}">${r.efficiency > 0 ? r.efficiency.toFixed(1) : '0'}</span></div>
+        <div class="pc-bar"><div class="pc-fill" style="width:${barWidth}%;background:${c.bo}"></div></div>
+      </div>
+      <div class="pc-tip" style="color:${c.tx}">${tipText}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('resultsSection').style.display = 'block';
+  document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+tryLoadFromCalc();
+if (!subs.length) renderInputs();
+</script>
+</body>
+</html>

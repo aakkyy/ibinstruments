@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root{
+  --bg:#0a0a0f;--bg2:#111118;--bg3:#18181f;--bg4:#1e1e28;
+  --tx:#f0f0fa;--tx2:#8888aa;--tx3:#44445a;
+  --ac:#7c6dfa;--ac2:#a78bfa;
+  --green:#22d3a0;--amber:#fbbf24;--red:#f87171;
+  --bd:rgba(255,255,255,0.07);--bd2:rgba(255,255,255,0.13);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Sora',system-ui,sans-serif;font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden;display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(124,109,250,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(124,109,250,0.025) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+
+/* Nav */
+nav{background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1060px;margin:0 auto;padding:0 1.25rem;display:flex;align-items:center;gap:0;height:58px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:2rem;flex-shrink:0}
+.nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#7c6dfa,#a78bfa);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;font-family:'DM Mono',monospace}
+.nav-logo-name{font-size:15px;font-weight:600;color:var(--tx);letter-spacing:-.3px}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1}
+.nav-link{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500;color:var(--tx2);transition:all .15s;white-space:nowrap}
+.nav-link:hover{background:var(--bg3);color:var(--tx)}
+.nav-link.active{background:rgba(124,109,250,0.12);color:var(--ac2)}
+.nav-link svg{flex-shrink:0}
+.nav-badge{font-size:10px;background:rgba(34,211,160,0.15);color:var(--green);padding:2px 7px;border-radius:100px;border:1px solid rgba(34,211,160,0.25);font-family:'DM Mono',monospace;margin-left:2px}
+
+/* Layout */
+.page-wrap{flex:1;max-width:1060px;margin:0 auto;padding:2rem 1.25rem;position:relative;z-index:1;width:100%}
+.page-hero{margin-bottom:2rem}
+.page-title{font-size:28px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+.page-sub{font-size:15px;color:var(--tx2)}
+.page-title span{background:linear-gradient(135deg,#fff,var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Card */
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:18px;padding:1.75rem;transition:border-color .2s}
+.card:hover{border-color:var(--bd2)}
+.card+.card{margin-top:12px}
+.c-title{font-size:17px;font-weight:600;letter-spacing:-.3px;margin-bottom:4px;color:var(--tx)}
+.c-sub{font-size:13px;color:var(--tx2);margin-bottom:1.25rem}
+.sep{border-top:1px solid var(--bd);margin:1.25rem 0}
+.sec-lbl{font-size:11px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 22px;border-radius:10px;border:1px solid var(--bd2);background:var(--bg3);color:var(--tx2);font-size:13px;font-family:'Sora',sans-serif;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--bg4);color:var(--tx)}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--ac);border-color:var(--ac);color:#fff}
+.btn.pri:hover{background:var(--ac2);border-color:var(--ac2)}
+.btn:disabled{opacity:0.3;cursor:not-allowed}
+.btn-row{display:flex;gap:10px;margin-top:1.5rem;flex-wrap:wrap;align-items:center}
+
+/* Grade pill colours */
+.gc1{background:rgba(248,113,113,0.18);color:#f87171}
+.gc2{background:rgba(236,72,153,0.18);color:#f472b6}
+.gc3{background:rgba(251,146,60,0.18);color:#fb923c}
+.gc4{background:rgba(251,191,36,0.18);color:#fbbf24}
+.gc5{background:rgba(96,165,250,0.18);color:#60a5fa}
+.gc6{background:rgba(52,211,153,0.18);color:#34d399}
+.gc7{background:rgba(74,222,128,0.18);color:#4ade80}
+.g-pill{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:'DM Mono',monospace;flex-shrink:0}
+
+/* Warning */
+.warn-card{background:rgba(248,113,113,0.07);border:1px solid rgba(248,113,113,0.22);border-radius:12px;padding:13px 15px;display:flex;gap:11px;align-items:flex-start;margin-bottom:12px;font-size:13px;color:#fca5a5;line-height:1.6}
+
+/* Footer */
+footer{background:var(--bg);border-top:1px solid var(--bd);position:relative;z-index:1;margin-top:auto}
+.foot-inner{max-width:1060px;margin:0 auto;padding:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.foot-left{font-size:13px;color:var(--tx3)}
+.foot-right{display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+.foot-link{display:flex;align-items:center;gap:6px;color:var(--tx3);text-decoration:none;font-size:12px;transition:color .15s}
+.foot-link:hover{color:var(--tx2)}
+@keyframes ph{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+.heart{color:#f87171;animation:ph 1.2s ease infinite;display:inline-block}
+
+/* Shared data colours */
+.cat-math{--c-bg:rgba(167,139,250,0.14);--c-bo:rgba(167,139,250,0.38);--c-tx:#c4b5fd;--c-fi:rgba(167,139,250,0.55)}
+.cat-science{--c-bg:rgba(52,211,153,0.11);--c-bo:rgba(52,211,153,0.32);--c-tx:#6ee7b7;--c-fi:rgba(52,211,153,0.45)}
+.cat-individuals{--c-bg:rgba(251,191,36,0.11);--c-bo:rgba(251,191,36,0.32);--c-tx:#fcd34d;--c-fi:rgba(251,191,36,0.45)}
+.cat-technology{--c-bg:rgba(96,165,250,0.11);--c-bo:rgba(96,165,250,0.32);--c-tx:#93c5fd;--c-fi:rgba(96,165,250,0.45)}
+.cat-language{--c-bg:rgba(244,114,182,0.11);--c-bo:rgba(244,114,182,0.32);--c-tx:#f9a8d4;--c-fi:rgba(244,114,182,0.45)}
+.cat-arts{--c-bg:rgba(251,146,60,0.11);--c-bo:rgba(251,146,60,0.32);--c-tx:#fdba74;--c-fi:rgba(251,146,60,0.45)}
+
+@media(max-width:640px){
+  .nav-logo-name{display:none}
+  .nav-link span{display:none}
+  .nav-link{padding:6px 10px}
+}
