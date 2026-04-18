@@ -58,18 +58,21 @@ body{
   position:relative;
 }
 
-/* Floating blurred shooting stars */
+/* Sharp streak lines, 15s recurrence, different directions */
 .bg-stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.star{position:absolute;border-radius:50%;filter:blur(60px);will-change:transform;background:var(--blob-a)}
-.star-1{width:240px;height:240px;top:10%;left:-20%;animation:shoot-1 18s linear infinite}
-.star-2{width:180px;height:180px;top:55%;left:-20%;background:var(--blob-b);animation:shoot-2 24s linear infinite;animation-delay:-6s}
-.star-3{width:200px;height:200px;top:30%;left:-20%;background:var(--blob-c);animation:shoot-3 21s linear infinite;animation-delay:-12s}
-.star-4{width:160px;height:160px;top:75%;left:-20%;background:var(--blob-a);animation:shoot-1 26s linear infinite;animation-delay:-9s;opacity:0.7}
-.star-5{width:220px;height:220px;top:15%;left:-20%;background:var(--blob-c);animation:shoot-2 30s linear infinite;animation-delay:-18s;opacity:0.8}
-
-@keyframes shoot-1{0%{transform:translate(0,0) scale(0.8);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,-20vh) scale(1.2);opacity:0}}
-@keyframes shoot-2{0%{transform:translate(0,0) scale(0.9);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(140vw,-40vh) scale(1.1);opacity:0}}
-@keyframes shoot-3{0%{transform:translate(0,0) scale(0.7);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,10vh) scale(1.3);opacity:0}}
+.star{position:absolute;will-change:transform,opacity;opacity:0;height:2px;border-radius:100px}
+.star::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(232,200,112,0) 8%,rgba(232,200,112,0.9) 50%,rgba(255,220,140,0) 92%,transparent 100%);filter:blur(0.5px);border-radius:100px}
+html[data-theme="light"] .star::before{background:linear-gradient(90deg,transparent 0%,rgba(138,107,20,0) 8%,rgba(138,107,20,0.75) 50%,rgba(168,133,31,0) 92%,transparent 100%)}
+.star-1{width:320px;top:12%;left:-340px;animation:streak-1 15s linear infinite;animation-delay:0s}
+.star-2{width:260px;top:68%;left:-340px;animation:streak-2 15s linear infinite;animation-delay:-3s}
+.star-3{width:360px;top:30%;left:calc(100vw + 360px);animation:streak-3 15s linear infinite;animation-delay:-6s}
+.star-4{width:220px;top:85%;left:-340px;animation:streak-4 15s linear infinite;animation-delay:-9s}
+.star-5{width:300px;top:48%;left:calc(100vw + 360px);animation:streak-5 15s linear infinite;animation-delay:-12s}
+@keyframes streak-1{0%{transform:translate(0,0) rotate(-5deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(100vw + 700px),-8vh) rotate(-5deg);opacity:0}}
+@keyframes streak-2{0%{transform:translate(0,0) rotate(-12deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(100vw + 700px),-24vh) rotate(-12deg);opacity:0}}
+@keyframes streak-3{0%{transform:translate(0,0) rotate(188deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(-100vw - 700px),12vh) rotate(188deg);opacity:0}}
+@keyframes streak-4{0%{transform:translate(0,0) rotate(-18deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(100vw + 700px),-32vh) rotate(-18deg);opacity:0}}
+@keyframes streak-5{0%{transform:translate(0,0) rotate(175deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(-100vw - 700px),-6vh) rotate(175deg);opacity:0}}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,10vh) scale(1.3);opacity:0}}
   50%{transform:translate(100px,-60px) scale(1.05)}
 }
 
@@ -523,6 +526,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);margin-top:auto;pos
       <a href="calculator.html" class="nav-link hide-mobile">Calculator</a>
       <a href="priorities.html" class="nav-link hide-mobile">Priorities</a>
       <a href="converter.html" class="nav-link hide-mobile">Converter</a>
+      <a href="boundaries.html" class="nav-link hide-mobile">Boundaries</a>
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
           <circle cx="12" cy="12" r="4"/>
@@ -581,7 +585,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);margin-top:auto;pos
   </section>
 
   <section class="features" id="what-it-does">
-    <div class="section-label">Three instruments</div>
+    <div class="section-label">Four instruments</div>
     <h2 class="section-title">A short shelf of <em>useful</em> things.</h2>
     <p class="section-sub">Nothing clever. Nothing trendy. Just the three calculations every IB student quietly runs in their head, made honest.</p>
 
@@ -602,6 +606,12 @@ footer{background:var(--bg);border-top:1px solid var(--line);margin-top:auto;pos
         <div class="feat-num">iii.</div>
         <div class="feat-title">The <em>converter</em></div>
         <div class="feat-desc">Type any percentage for any subject. See the grade, the full boundary table, and how close you are to the next one.</div>
+        <div class="feat-arrow">&rarr;</div>
+      </a>
+      <a href="boundaries.html" class="feature-row">
+        <div class="feat-num">iv.</div>
+        <div class="feat-title">The <em>boundaries</em></div>
+        <div class="feat-desc">Every subject, every timezone, in one reference table. Pick your TZ and the page updates with your exact boundaries.</div>
         <div class="feat-arrow">&rarr;</div>
       </a>
     </div>
@@ -635,6 +645,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);margin-top:auto;pos
       <a href="calculator.html" class="foot-pill">Calculator</a>
       <a href="priorities.html" class="foot-pill">Priorities</a>
       <a href="converter.html" class="foot-pill">Converter</a>
+      <a href="boundaries.html" class="foot-pill">Boundaries</a>
       <a href="help.html" class="foot-pill">Help</a>
       <a href="socials.html" class="foot-pill">Socials</a>
       <a href="privacy.html" class="foot-pill">Privacy</a>

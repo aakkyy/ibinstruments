@@ -150,6 +150,7 @@ function buildNav(activePage){
     {href:'calculator.html',label:'Calculator'},
     {href:'priorities.html',label:'Priorities'},
     {href:'converter.html',label:'Converter'},
+    {href:'boundaries.html',label:'Boundaries'},
   ];
   const links=pages.map(p=>`<a href="${p.href}" class="nav-link hide-mobile${activePage===p.href?' active':''}">${p.label}</a>`).join('');
   const toggle=`<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
@@ -182,6 +183,7 @@ function buildFooter(){
       `<a href="calculator.html" class="foot-pill">Calculator</a>`+
       `<a href="priorities.html" class="foot-pill">Priorities</a>`+
       `<a href="converter.html" class="foot-pill">Converter</a>`+
+      `<a href="boundaries.html" class="foot-pill">Boundaries</a>`+
       `<a href="help.html" class="foot-pill">Help</a>`+
       `<a href="socials.html" class="foot-pill">Socials</a>`+
       `<a href="privacy.html" class="foot-pill">Privacy</a>`+

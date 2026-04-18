@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#1c1915">
+<meta name="description" content="May 2025 IBDP grade boundaries for all 63 subjects, with timezone-specific values where they apply.">
+<title>Grade Boundaries - instrument.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@300;400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+.bnd-hero{display:grid;grid-template-columns:1.5fr 1fr;gap:3rem;align-items:start;margin-bottom:2.5rem}
+@media(max-width:720px){.bnd-hero{grid-template-columns:1fr}}
+.bnd-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;background:var(--bg-card);border:1px solid var(--bd);border-radius:100px;font-size:11px;font-weight:500;color:var(--ink2);margin-bottom:1.5rem;letter-spacing:0.05em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.bnd-pill svg{color:var(--accent)}
+.bnd-title{font-family:'Newsreader',serif;font-size:clamp(48px,7vw,84px);line-height:0.98;letter-spacing:-0.035em;font-weight:400;margin-bottom:1.25rem}
+.bnd-title em{font-style:italic;color:var(--accent)}
+.bnd-sub{font-size:16px;color:var(--ink2);line-height:1.65;max-width:520px}
+.bnd-info{background:var(--bg-card);border:1px solid var(--bd);border-radius:16px;padding:1.5rem}
+.bnd-iblock{padding:0.75rem 0;border-bottom:1px solid var(--bd)}
+.bnd-iblock:last-child{border-bottom:none}
+.bnd-ilbl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);margin-bottom:6px}
+.bnd-ival{font-family:'Newsreader',serif;font-size:22px;font-weight:400;line-height:1;color:var(--ink)}
+.bnd-ival em{font-style:italic;color:var(--accent)}
+
+/* TZ picker */
+.tz-picker-card{background:var(--bg-card);border:1px solid var(--bd);border-radius:20px;padding:3rem 2rem;text-align:center;margin-bottom:2rem}
+.tz-picker-label{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-bottom:0.75rem}
+.tz-picker-title{font-family:'Newsreader',serif;font-size:clamp(28px,4vw,40px);font-weight:400;letter-spacing:-0.02em;line-height:1.15;margin-bottom:0.5rem}
+.tz-picker-title em{font-style:italic;color:var(--accent)}
+.tz-picker-sub{font-size:14px;color:var(--ink2);line-height:1.6;max-width:480px;margin:0 auto 2rem}
+.tz-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:640px;margin:0 auto}
+@media(max-width:620px){.tz-grid{grid-template-columns:repeat(2,1fr)}}
+.tz-btn{background:transparent;border:1px solid var(--bd2);border-radius:14px;padding:1.25rem 1rem;cursor:pointer;color:var(--ink);font-family:'Inter',sans-serif;transition:all 0.18s cubic-bezier(0.34,1.56,0.64,1);display:flex;flex-direction:column;align-items:center;gap:6px}
+.tz-btn:hover{background:var(--bg2);border-color:var(--ink3);transform:translateY(-2px)}
+.tz-btn:active{transform:scale(0.96);transition-duration:0.06s}
+.tz-btn-num{font-family:'Newsreader',serif;font-size:32px;font-weight:400;font-style:italic;color:var(--accent);line-height:1}
+.tz-btn-lbl{font-size:12px;color:var(--ink2);font-weight:500;letter-spacing:0.01em}
+.tz-btn.active{background:var(--accent-bg);border-color:var(--accent)}
+.tz-btn.active .tz-btn-lbl{color:var(--ink)}
+
+/* Category header */
+.cat-head{display:flex;align-items:baseline;gap:1rem;margin:3rem 0 1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--bd)}
+.cat-head:first-child{margin-top:0}
+.cat-num{font-family:'Newsreader',serif;font-style:italic;font-size:24px;color:var(--accent);line-height:1}
+.cat-name{font-family:'Newsreader',serif;font-size:28px;font-weight:400;letter-spacing:-0.015em;color:var(--ink);line-height:1}
+.cat-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-left:auto;letter-spacing:0.12em;text-transform:uppercase}
+
+/* Subject table */
+.subj-row{background:var(--bg-card);border:1px solid var(--bd);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:10px;transition:border-color 0.2s}
+.subj-row:hover{border-color:var(--bd2)}
+.subj-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.9rem;gap:12px;flex-wrap:wrap}
+.subj-name{font-family:'Newsreader',serif;font-size:18px;font-weight:500;letter-spacing:-0.01em;color:var(--ink)}
+.subj-name em{font-style:italic;color:var(--accent);font-weight:400}
+.subj-tz-badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 10px;background:var(--accent-bg);color:var(--accent);border-radius:100px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500}
+.subj-tz-badge.default{background:var(--bg3);color:var(--ink3)}
+
+.bounds-table{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.bound-cell{background:var(--bg2);border-radius:8px;padding:10px 4px;text-align:center;border:1px solid transparent;transition:all 0.15s}
+.bound-cell:hover{border-color:var(--bd2)}
+.bound-grade{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;font-weight:500}
+.bound-val{font-family:'Newsreader',serif;font-size:20px;font-weight:400;color:var(--ink);line-height:1}
+.bound-cell.g7{background:rgba(184,209,138,0.12);border-color:rgba(184,209,138,0.25)}
+.bound-cell.g7 .bound-val{color:#b8d18a}
+.bound-cell.g6{background:rgba(168,184,138,0.1)}
+.bound-cell.g6 .bound-val{color:#a8b88a}
+.bound-cell.g1{background:rgba(214,138,111,0.1)}
+.bound-cell.g1 .bound-val{color:#d68a6f}
+.bound-suffix{font-size:10px;color:var(--muted);margin-top:2px;font-family:'JetBrains Mono',monospace}
+
+.search-bar{position:relative;margin-bottom:2rem}
+.search-input{width:100%;padding:14px 16px 14px 42px;background:var(--bg-card);border:1px solid var(--bd);border-radius:100px;color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:all 0.15s}
+.search-input:focus{border-color:var(--accent);background:var(--bg2)}
+.search-input::placeholder{color:var(--ink3)}
+.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--ink3);pointer-events:none}
+
+.change-tz-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:transparent;border:1px solid var(--bd2);border-radius:100px;color:var(--ink2);font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.15s;margin-bottom:1.5rem}
+.change-tz-btn:hover{background:var(--bg2);color:var(--ink);border-color:var(--ink3)}
+.change-tz-btn:active{transform:scale(0.96)}
+
+.empty-state{padding:3rem 2rem;text-align:center;color:var(--ink3);font-size:14px;font-style:italic;font-family:'Newsreader',serif}
+</style>
+</head>
+<body>
+
+<div id="navHost"></div>
+
+<div class="page-wrap">
+
+  <div class="bnd-hero">
+    <div>
+      <div class="bnd-pill">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Reference
+      </div>
+      <h1 class="bnd-title">Grade<br><em>boundaries</em>.</h1>
+      <p class="bnd-sub">The full May 2025 IBDP grade boundary table for 63 subjects. 48 subjects have timezone-specific values — pick yours and the table updates.</p>
+    </div>
+    <div class="bnd-info">
+      <div class="bnd-iblock">
+        <div class="bnd-ilbl">Session</div>
+        <div class="bnd-ival"><em>May</em> 2025</div>
+      </div>
+      <div class="bnd-iblock">
+        <div class="bnd-ilbl">Subjects</div>
+        <div class="bnd-ival">63</div>
+      </div>
+      <div class="bnd-iblock">
+        <div class="bnd-ilbl">TZ variants</div>
+        <div class="bnd-ival">48</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pickerScreen">
+    <div class="tz-picker-card">
+      <div class="tz-picker-label">Step 1</div>
+      <h2 class="tz-picker-title">Which <em>timezone</em> do you sit?</h2>
+      <p class="tz-picker-sub">The IB sets different grade boundaries across three timezone rounds. If you don't know which one you sit, pick Default and you'll see the global average boundaries.</p>
+      <div class="tz-grid">
+        <button class="tz-btn" onclick="pickTZ('')"><span class="tz-btn-num">&deg;</span><span class="tz-btn-lbl">Default</span></button>
+        <button class="tz-btn" onclick="pickTZ('TZ1')"><span class="tz-btn-num">1</span><span class="tz-btn-lbl">TZ 1</span></button>
+        <button class="tz-btn" onclick="pickTZ('TZ2')"><span class="tz-btn-num">2</span><span class="tz-btn-lbl">TZ 2</span></button>
+        <button class="tz-btn" onclick="pickTZ('TZ3')"><span class="tz-btn-num">3</span><span class="tz-btn-lbl">TZ 3</span></button>
+      </div>
+    </div>
+  </div>
+
+  <div id="tableScreen" style="display:none">
+    <button class="change-tz-btn" onclick="resetPicker()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      <span id="tzLabel">Timezone</span> &middot; change
+    </button>
+
+    <div class="search-bar">
+      <svg class="search-icon" width="15" height="15" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+      <input id="searchBox" class="search-input" type="text" placeholder="Search a subject..." oninput="filterSubjects()">
+    </div>
+
+    <div id="boundsContent"></div>
+  </div>
+
+</div>
+
+<div id="footHost"></div>
+
+<script src="shared.js"></script>
+<script>
+document.getElementById('navHost').innerHTML=buildNav('boundaries.html');
+document.getElementById('footHost').innerHTML=buildFooter();
+
+let currentTZ = '';
+let searchTerm = '';
+
+function pickTZ(tz){
+  currentTZ = tz;
+  document.getElementById('pickerScreen').style.display = 'none';
+  document.getElementById('tableScreen').style.display = 'block';
+  document.getElementById('tzLabel').textContent = tz || 'Default';
+  try { localStorage.setItem('bounds_tz', tz); } catch(e){}
+  renderBoundaries();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetPicker(){
+  document.getElementById('pickerScreen').style.display = 'block';
+  document.getElementById('tableScreen').style.display = 'none';
+  document.getElementById('searchBox').value = '';
+  searchTerm = '';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function filterSubjects(){
+  searchTerm = document.getElementById('searchBox').value.toLowerCase();
+  renderBoundaries();
+}
+
+function renderBoundaries(){
+  let html = '';
+  const catOrder = ['Math','Science','Individuals','Technology','Language','Arts'];
+  const catIcons = {
+    'Math':'&#8734;','Science':'&#9678;','Individuals':'&sect;',
+    'Technology':'&diams;','Language':'&para;','Arts':'&#9737;'
+  };
+
+  for (const cat of catOrder){
+    const subs = CATS[cat].c.filter(n => {
+      if (!searchTerm) return true;
+      return n.toLowerCase().includes(searchTerm);
+    });
+    if (!subs.length) continue;
+
+    html += `<div class="cat-head"><span class="cat-num">${catIcons[cat]||'&bull;'}</span><span class="cat-name">${cat}</span><span class="cat-count">${subs.length} subject${subs.length===1?'':'s'}</span></div>`;
+
+    for (const subj of subs){
+      const bounds = getBounds(subj, currentTZ);
+      if (!bounds) continue;
+      const hasCustomTZ = currentTZ && hasTZ(subj) && availableTZ(subj).includes(currentTZ);
+      const tzBadge = currentTZ
+        ? (hasCustomTZ
+            ? `<span class="subj-tz-badge">${currentTZ}</span>`
+            : `<span class="subj-tz-badge default">Default</span>`)
+        : `<span class="subj-tz-badge default">Default</span>`;
+
+      const displayName = subj.replace(/ (HL|SL)$/, ' <em>$1</em>');
+
+      let cells = '';
+      for (let g = 1; g <= 7; g++){
+        const val = bounds[g-1];
+        const next = g < 7 ? bounds[g] : null;
+        const range = next !== null ? `${val}&ndash;${next-1}` : `${val}+`;
+        const cls = g === 7 ? 'g7' : g === 6 ? 'g6' : g === 1 ? 'g1' : '';
+        cells += `<div class="bound-cell ${cls}"><div class="bound-grade">Grade ${g}</div><div class="bound-val">${val}</div><div class="bound-suffix">${range}</div></div>`;
+      }
+
+      html += `<div class="subj-row">
+        <div class="subj-head">
+          <div class="subj-name">${displayName}</div>
+          ${tzBadge}
+        </div>
+        <div class="bounds-table">${cells}</div>
+      </div>`;
+    }
+  }
+
+  if (!html) html = '<div class="empty-state">No subjects match your search.</div>';
+  document.getElementById('boundsContent').innerHTML = html;
+}
+
+/* Load saved TZ on page load and skip picker if we have one */
+(function(){
+  try {
+    const saved = localStorage.getItem('bounds_tz');
+    if (saved !== null) pickTZ(saved);
+  } catch(e){}
+})();
+</script>
+</body>
+</html>

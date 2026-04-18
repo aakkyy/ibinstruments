@@ -32,16 +32,57 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.65;min-height:100vh;overflow-x:hidden;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;transition:background 0.4s ease,color 0.4s ease;position:relative}
 
 .bg-stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.star{position:absolute;border-radius:50%;filter:blur(60px);will-change:transform;background:var(--blob-a)}
-.star-1{width:240px;height:240px;top:10%;left:-20%;animation:shoot-1 18s linear infinite}
-.star-2{width:180px;height:180px;top:55%;left:-20%;background:var(--blob-b);animation:shoot-2 24s linear infinite;animation-delay:-6s}
-.star-3{width:200px;height:200px;top:30%;left:-20%;background:var(--blob-c);animation:shoot-3 21s linear infinite;animation-delay:-12s}
-.star-4{width:160px;height:160px;top:75%;left:-20%;background:var(--blob-a);animation:shoot-1 26s linear infinite;animation-delay:-9s;opacity:0.7}
-.star-5{width:220px;height:220px;top:15%;left:-20%;background:var(--blob-c);animation:shoot-2 30s linear infinite;animation-delay:-18s;opacity:0.8}
+.star{position:absolute;will-change:transform,opacity;opacity:0;height:2px;border-radius:100px}
+.star::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(232,200,112,0) 8%,rgba(232,200,112,0.9) 50%,rgba(255,220,140,0) 92%,transparent 100%);filter:blur(0.5px);border-radius:100px}
+html[data-theme="light"] .star::before{background:linear-gradient(90deg,transparent 0%,rgba(138,107,20,0) 8%,rgba(138,107,20,0.75) 50%,rgba(168,133,31,0) 92%,transparent 100%)}
 
-@keyframes shoot-1{0%{transform:translate(0,0) scale(0.8);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,-20vh) scale(1.2);opacity:0}}
-@keyframes shoot-2{0%{transform:translate(0,0) scale(0.9);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(140vw,-40vh) scale(1.1);opacity:0}}
-@keyframes shoot-3{0%{transform:translate(0,0) scale(0.7);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,10vh) scale(1.3);opacity:0}}40%{transform:translate(60px,-40px) scale(1.1)}80%{transform:translate(-80px,20px) scale(0.92)}}
+/* Five sharp streaks, each a 15s cycle, different angles and start points */
+.star-1{width:320px;top:12%;left:-340px;animation:streak-1 15s linear infinite;animation-delay:0s}
+.star-2{width:260px;top:68%;left:-340px;animation:streak-2 15s linear infinite;animation-delay:-3s}
+.star-3{width:360px;top:30%;left:calc(100vw + 360px);animation:streak-3 15s linear infinite;animation-delay:-6s}
+.star-4{width:220px;top:85%;left:-340px;animation:streak-4 15s linear infinite;animation-delay:-9s}
+.star-5{width:300px;top:48%;left:calc(100vw + 360px);animation:streak-5 15s linear infinite;animation-delay:-12s}
+
+@keyframes streak-1{
+  0%{transform:translate(0,0) rotate(-5deg);opacity:0}
+  6%{opacity:0}
+  10%{opacity:1}
+  16%{opacity:1}
+  22%{opacity:0}
+  100%{transform:translate(calc(100vw + 700px),-8vh) rotate(-5deg);opacity:0}
+}
+@keyframes streak-2{
+  0%{transform:translate(0,0) rotate(-12deg);opacity:0}
+  6%{opacity:0}
+  10%{opacity:1}
+  16%{opacity:1}
+  22%{opacity:0}
+  100%{transform:translate(calc(100vw + 700px),-24vh) rotate(-12deg);opacity:0}
+}
+@keyframes streak-3{
+  0%{transform:translate(0,0) rotate(188deg);opacity:0}
+  6%{opacity:0}
+  10%{opacity:1}
+  16%{opacity:1}
+  22%{opacity:0}
+  100%{transform:translate(calc(-100vw - 700px),12vh) rotate(188deg);opacity:0}
+}
+@keyframes streak-4{
+  0%{transform:translate(0,0) rotate(-18deg);opacity:0}
+  6%{opacity:0}
+  10%{opacity:1}
+  16%{opacity:1}
+  22%{opacity:0}
+  100%{transform:translate(calc(100vw + 700px),-32vh) rotate(-18deg);opacity:0}
+}
+@keyframes streak-5{
+  0%{transform:translate(0,0) rotate(175deg);opacity:0}
+  6%{opacity:0}
+  10%{opacity:1}
+  16%{opacity:1}
+  22%{opacity:0}
+  100%{transform:translate(calc(-100vw - 700px),-6vh) rotate(175deg);opacity:0}
+}
 
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");opacity:var(--grain);pointer-events:none;z-index:1;mix-blend-mode:overlay}
 
