@@ -156,9 +156,9 @@ function buildNav(activePage){
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   </button>`;
-  const blobs=`<div class="bg-blobs"><div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div></div>`;
-  return blobs+`<nav><div class="nav-inner">`+
-    `<a href="index.html" class="nav-brand"><span class="nav-mark">i.</span><span class="nav-brand-text">instrument<em>.</em></span></a>`+
+  const stars=`<div class="bg-stars"><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div><div class="star star-4"></div><div class="star star-5"></div></div>`;
+  return stars+`<nav><div class="nav-inner">`+
+    `<a href="index.html" class="nav-brand" role="button"><span class="nav-mark">i.</span><span class="nav-brand-text">instrument<em>.</em></span></a>`+
     `<div class="nav-right">${links}${toggle}</div></div></nav>`;
 }
 
@@ -177,7 +177,15 @@ function toggleTheme(){
 
 function buildFooter(){
   return`<footer><div class="foot-inner">`+
-    `<div>A <span style="font-family:'Newsreader',serif;font-style:italic;color:var(--accent)">quiet</span> toolkit. Made in MMXXVI.</div>`+
-    `<div class="foot-links"><a href="calculator.html">Calculator</a><a href="priorities.html">Priorities</a><a href="converter.html">Converter</a></div>`+
+    `<div class="foot-tag">A <em>quiet</em> toolkit &middot; MMXXVI</div>`+
+    `<div class="foot-links">`+
+      `<a href="calculator.html" class="foot-pill">Calculator</a>`+
+      `<a href="priorities.html" class="foot-pill">Priorities</a>`+
+      `<a href="converter.html" class="foot-pill">Converter</a>`+
+      `<a href="help.html" class="foot-pill">Help</a>`+
+      `<a href="socials.html" class="foot-pill">Socials</a>`+
+      `<a href="privacy.html" class="foot-pill">Privacy</a>`+
+      `<a href="terms.html" class="foot-pill">Terms</a>`+
+    `</div>`+
     `</div></footer>`;
 }

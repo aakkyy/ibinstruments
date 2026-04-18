@@ -58,63 +58,18 @@ body{
   position:relative;
 }
 
-/* Floating blurred gradient blobs */
-.bg-blobs{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-  overflow:hidden;
-}
-.blob{
-  position:absolute;
-  border-radius:50%;
-  filter:blur(80px);
-  will-change:transform;
-  transition:background 0.4s ease;
-}
-.blob-1{
-  width:520px;height:520px;
-  top:-180px;left:-120px;
-  background:var(--blob-a);
-  animation:float-1 22s ease-in-out infinite;
-}
-.blob-2{
-  width:420px;height:420px;
-  top:30%;right:-140px;
-  background:var(--blob-b);
-  animation:float-2 28s ease-in-out infinite;
-}
-.blob-3{
-  width:360px;height:360px;
-  bottom:-100px;left:30%;
-  background:var(--blob-c);
-  animation:float-3 25s ease-in-out infinite;
-}
-.blob-4{
-  width:280px;height:280px;
-  top:55%;left:5%;
-  background:var(--blob-a);
-  animation:float-4 30s ease-in-out infinite;
-  opacity:0.7;
-}
+/* Floating blurred shooting stars */
+.bg-stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;filter:blur(60px);will-change:transform;background:var(--blob-a)}
+.star-1{width:240px;height:240px;top:10%;left:-20%;animation:shoot-1 18s linear infinite}
+.star-2{width:180px;height:180px;top:55%;left:-20%;background:var(--blob-b);animation:shoot-2 24s linear infinite;animation-delay:-6s}
+.star-3{width:200px;height:200px;top:30%;left:-20%;background:var(--blob-c);animation:shoot-3 21s linear infinite;animation-delay:-12s}
+.star-4{width:160px;height:160px;top:75%;left:-20%;background:var(--blob-a);animation:shoot-1 26s linear infinite;animation-delay:-9s;opacity:0.7}
+.star-5{width:220px;height:220px;top:15%;left:-20%;background:var(--blob-c);animation:shoot-2 30s linear infinite;animation-delay:-18s;opacity:0.8}
 
-@keyframes float-1{
-  0%,100%{transform:translate(0,0) scale(1)}
-  33%{transform:translate(80px,60px) scale(1.08)}
-  66%{transform:translate(-40px,100px) scale(0.95)}
-}
-@keyframes float-2{
-  0%,100%{transform:translate(0,0) scale(1)}
-  50%{transform:translate(-60px,80px) scale(1.12)}
-}
-@keyframes float-3{
-  0%,100%{transform:translate(0,0) scale(1)}
-  40%{transform:translate(60px,-40px) scale(1.1)}
-  80%{transform:translate(-80px,20px) scale(0.92)}
-}
-@keyframes float-4{
-  0%,100%{transform:translate(0,0) scale(1)}
+@keyframes shoot-1{0%{transform:translate(0,0) scale(0.8);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,-20vh) scale(1.2);opacity:0}}
+@keyframes shoot-2{0%{transform:translate(0,0) scale(0.9);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translate(140vw,-40vh) scale(1.1);opacity:0}}
+@keyframes shoot-3{0%{transform:translate(0,0) scale(0.7);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,10vh) scale(1.3);opacity:0}}
   50%{transform:translate(100px,-60px) scale(1.05)}
 }
 
@@ -148,7 +103,11 @@ nav{
 .nav-brand{
   display:flex;align-items:center;gap:10px;
   text-decoration:none;color:var(--ink);
+  padding:6px 10px;margin:-6px -10px;border-radius:12px;
+  transition:background 0.15s,transform 0.18s cubic-bezier(0.34,1.56,0.64,1);
 }
+.nav-brand:hover{background:var(--bg2)}
+.nav-brand:active{transform:scale(0.94);transition-duration:0.06s}
 .nav-mark{
   font-family:'Newsreader',serif;
   font-size:28px;font-style:italic;font-weight:400;
@@ -532,82 +491,26 @@ main{flex:1}
 }
 
 /* Footer */
-footer{
-  background:var(--bg);
-  border-top:1px solid var(--line);
-  margin-top:auto;
-  position:relative;z-index:2;
-}
-.foot-inner{
-  max-width:1140px;margin:0 auto;
-  padding:3rem 1.75rem 1.5rem;
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1fr 1fr;
-  gap:3rem;
-}
-@media(max-width:720px){
-  .foot-inner{grid-template-columns:1fr 1fr;gap:2.5rem 1.5rem}
-}
-.foot-brand{
-  font-family:'Newsreader',serif;
-  font-style:italic;font-size:20px;
-  line-height:1.35;color:var(--ink);
-  margin-bottom:0.75rem;
-  max-width:280px;
-}
-.foot-brand em{color:var(--accent)}
-.foot-brand-sub{
-  font-size:13px;color:var(--ink3);
-  line-height:1.6;max-width:280px;
-}
-
-.foot-col-title{
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px;text-transform:uppercase;
-  letter-spacing:0.18em;color:var(--muted);
-  margin-bottom:1.25rem;
-}
-.foot-col a{
-  display:block;font-size:14px;
-  color:var(--ink);text-decoration:none;
-  margin-bottom:0.75rem;
-  transition:color .15s, transform .15s;
-}
-.foot-col a:hover{color:var(--accent)}
-.foot-col a:active{transform:scale(0.97)}
-
-.foot-bottom{
-  max-width:1140px;margin:0 auto;
-  padding:1.25rem 1.75rem 2rem;
-  border-top:1px solid var(--line);
-  display:flex;justify-content:space-between;
-  align-items:center;flex-wrap:wrap;gap:1rem;
-  font-size:12px;color:var(--ink3);
-}
-.foot-bottom a{
-  color:var(--ink3);text-decoration:none;
-  margin-left:1.5rem;
-}
-.foot-bottom a:hover{color:var(--ink)}
-
-@keyframes pulse-dot{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.6;transform:scale(1.3)}
-}
-.heart{
-  color:var(--accent);
-  display:inline-block;
-  animation:pulse-dot 1.8s ease-in-out infinite;
-}
+footer{background:var(--bg);border-top:1px solid var(--line);margin-top:auto;position:relative;z-index:2}
+.foot-inner{max-width:1140px;margin:0 auto;padding:2rem 1.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.foot-tag{font-size:12px;color:var(--ink3)}
+.foot-tag em{font-family:'Newsreader',serif;font-style:italic;color:var(--accent)}
+.foot-links{display:flex;gap:6px;flex-wrap:wrap}
+.foot-pill{display:inline-flex;align-items:center;padding:6px 14px;border-radius:100px;border:1px solid var(--line);background:transparent;color:var(--ink3);font-size:12px;font-family:'Inter',sans-serif;font-weight:450;text-decoration:none;cursor:pointer;transition:all 0.15s;letter-spacing:0.01em}
+.foot-pill:hover{background:var(--bg2);color:var(--ink);border-color:var(--line2)}
+.foot-pill:active{transform:scale(0.95);transition-duration:0.06s}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.3)}}
+.heart{color:var(--accent);display:inline-block;animation:pulse-dot 1.8s ease-in-out infinite}
 </style>
 </head>
 <body>
 
-<div class="bg-blobs">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
+<div class="bg-stars">
+  <div class="star star-1"></div>
+  <div class="star star-2"></div>
+  <div class="star star-3"></div>
+  <div class="star star-4"></div>
+  <div class="star star-5"></div>
 </div>
 
 <nav>
@@ -727,39 +630,15 @@ footer{
 
 <footer>
   <div class="foot-inner">
-    <div>
-      <div class="foot-brand">Instrument<em>.</em><br>A <em>quiet</em> toolkit.</div>
-      <div class="foot-brand-sub">For IBDP and IBCP students. No ads. No tracking. No account needed.</div>
-    </div>
-    <div>
-      <div class="foot-col-title">Tools</div>
-      <div>
-        <a href="calculator.html">Calculator</a>
-        <a href="priorities.html">Priorities</a>
-        <a href="converter.html">Converter</a>
-      </div>
-    </div>
-    <div>
-      <div class="foot-col-title">Connect</div>
-      <div>
-        <a href="https://instagram.com/akshajvelpula" target="_blank" rel="noopener">Instagram</a>
-        <a href="mailto:akshajvelpula@gmail.com">Email</a>
-      </div>
-    </div>
-    <div>
-      <div class="foot-col-title">Colophon</div>
-      <div>
-        <a href="#">How it works</a>
-        <a href="#">Accuracy</a>
-        <a href="#">Feedback</a>
-      </div>
-    </div>
-  </div>
-  <div class="foot-bottom">
-    <div>Made with <span class="heart">&bull;</span> in MMXXVI</div>
-    <div>
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
+    <div class="foot-tag">A <em>quiet</em> toolkit &middot; MMXXVI</div>
+    <div class="foot-links">
+      <a href="calculator.html" class="foot-pill">Calculator</a>
+      <a href="priorities.html" class="foot-pill">Priorities</a>
+      <a href="converter.html" class="foot-pill">Converter</a>
+      <a href="help.html" class="foot-pill">Help</a>
+      <a href="socials.html" class="foot-pill">Socials</a>
+      <a href="privacy.html" class="foot-pill">Privacy</a>
+      <a href="terms.html" class="foot-pill">Terms</a>
     </div>
   </div>
 </footer>
