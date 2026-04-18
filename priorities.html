@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="theme-color" content="#7c6dfa">
+  <meta name="description" content="Find out which subjects give you the biggest grade jump for the least effort.">
+  <meta property="og:title" content="Revision Priority — IBDP Tools">
+  <meta property="og:description" content="Find out which subjects give you the biggest grade jump for the least effort.">
+  <meta property="og:type" content="website">
 <title>Revision Priority — IBDP Tools</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -167,14 +173,14 @@ function renderInputs() {
     const pct = calcW(s);
     const g = BOUNDS[s.name] ? getGrade(pct, BOUNDS[s.name]) : 0;
     const hasMark = s.sa1 || s.sa2 || s.sa3;
-    return `<div class="sub-input-card${hasMark ? ' filled' : ''}" style="border-color:${hasMark ? c.bo : ''}">
+    return `<div class="sub-input-card${hasMark ? ' filled' : ''}" id="sic_${i}" style="border-color:${hasMark ? c.bo : ''}">
       <div class="sic-top">
         <div>
           <div class="sic-name" style="color:${c.tx}">${s.name}</div>
           <div style="font-size:10px;color:var(--tx3);margin-top:2px">${CAT_NAMES[catOf(s.name)]}</div>
         </div>
         <div style="display:flex;align-items:center;gap:8px">
-          ${g > 0 ? `<div class="sic-grade gc${g}">${g}</div>` : ''}
+          <div class="sic-grade gc${g}" id="pill_${i}" style="display:${g > 0 ? 'flex' : 'none'}">${g > 0 ? g : ''}</div>
           <button onclick="removeSub(${i})" style="background:none;border:none;cursor:pointer;color:var(--tx3);padding:4px;transition:color .15s" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--tx3)'">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
@@ -194,7 +200,23 @@ function renderInputs() {
 function updateMark(i, field, val) {
   const n = parseFloat(val);
   subs[i][field] = isNaN(n) ? '' : Math.min(100, Math.max(0, n)).toString();
-  renderInputs();
+  refreshGradePill(i);
+}
+
+function refreshGradePill(i) {
+  const s = subs[i];
+  if (!s || !BOUNDS[s.name]) return;
+  const pct = calcW(s);
+  const g = getGrade(pct, BOUNDS[s.name]);
+  const pill = document.getElementById('pill_' + i);
+  if (!pill) return;
+  pill.className = 'sic-grade gc' + g;
+  pill.textContent = g;
+  pill.style.display = (s.sa1 || s.sa2 || s.sa3 || s.sa4) ? 'flex' : 'none';
+  /* Also update border colour */
+  const card = document.getElementById('sic_' + i);
+  const c = colOf(s.name);
+  if (card) card.style.borderColor = (s.sa1 || s.sa2 || s.sa3 || s.sa4) ? c.bo : '';
 }
 
 function removeSub(i) {
