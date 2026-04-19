@@ -159,7 +159,33 @@ function buildNav(activePage){
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
   </button>`;
-  const stars=`<div class="bg-stars"><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div><div class="star star-4"></div><div class="star star-5"></div></div>`;
+  const stars=`<div class="bg-stars">`+
+    `<div class="nebula nebula-1"></div>`+
+    `<div class="nebula nebula-2"></div>`+
+    `<div class="nebula nebula-3"></div>`+
+    `<div class="starfield starfield-1"></div>`+
+    `<div class="starfield starfield-2"></div>`+
+    `<div class="star gold big s01"></div>`+
+    `<div class="star s02"></div>`+
+    `<div class="star s03"></div>`+
+    `<div class="star gold s04"></div>`+
+    `<div class="star s05"></div>`+
+    `<div class="star big s06"></div>`+
+    `<div class="star gold s07"></div>`+
+    `<div class="star s08"></div>`+
+    `<div class="star s09"></div>`+
+    `<div class="star gold big s10"></div>`+
+    `<div class="star s11"></div>`+
+    `<div class="star s12"></div>`+
+    `<div class="star gold s13"></div>`+
+    `<div class="star big s14"></div>`+
+    `<div class="star s15"></div>`+
+    `<div class="star gold s16"></div>`+
+    `<div class="star s17"></div>`+
+    `<div class="star s18"></div>`+
+    `<div class="shooting"></div>`+
+    `<div class="shooting s2"></div>`+
+    `</div>`;
   return stars+`<nav><div class="nav-inner">`+
     `<a href="index.html" class="nav-brand" role="button"><span class="nav-mark">i.</span><span class="nav-brand-text">instrument<em>.</em></span></a>`+
     `<div class="nav-right">${links}${signin}${toggle}</div></div></nav>`;
@@ -336,7 +362,6 @@ function renderGSIButton(){
   const fallback = document.getElementById('authGoogleFallback');
   if (!container) return;
   if (typeof google === 'undefined' || !google.accounts || !google.accounts.id){
-    // GSI library not loaded (e.g. offline). Show fallback that prompts user.
     container.style.display = 'none';
     if (fallback) fallback.style.display = 'flex';
     return;

@@ -32,51 +32,124 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.65;min-height:100vh;overflow-x:hidden;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;transition:background 0.4s ease,color 0.4s ease;position:relative}
 
 .bg-stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.star{position:absolute;will-change:transform,opacity;opacity:0;height:2px;border-radius:100px}
-.star::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(232,200,112,0) 8%,rgba(232,200,112,0.9) 50%,rgba(255,220,140,0) 92%,transparent 100%);filter:blur(0.5px);border-radius:100px}
-html[data-theme="light"] .star::before{background:linear-gradient(90deg,transparent 0%,rgba(138,107,20,0) 8%,rgba(138,107,20,0.75) 50%,rgba(168,133,31,0) 92%,transparent 100%)}
 
-/* Five sharp streaks, each a 15s cycle, different angles and start points */
-.star-1{width:320px;top:12%;left:-340px;animation:streak-1 15s linear infinite;animation-delay:0s}
-.star-2{width:260px;top:68%;left:-340px;animation:streak-2 15s linear infinite;animation-delay:-3s}
-.star-3{width:360px;top:30%;left:calc(100vw + 360px);animation:streak-3 15s linear infinite;animation-delay:-6s}
-.star-4{width:220px;top:85%;left:-340px;animation:streak-4 15s linear infinite;animation-delay:-9s}
-.star-5{width:300px;top:48%;left:calc(100vw + 360px);animation:streak-5 15s linear infinite;animation-delay:-12s}
+/* Nebula: two large soft gradient blobs that drift slowly, giving the sky depth */
+.nebula{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:0.35}
+.nebula-1{width:60vw;height:60vw;top:-15vw;left:-10vw;background:radial-gradient(circle,rgba(232,200,112,0.18) 0%,rgba(232,200,112,0) 70%);animation:drift-1 80s linear infinite}
+.nebula-2{width:55vw;height:55vw;bottom:-12vw;right:-10vw;background:radial-gradient(circle,rgba(196,150,90,0.15) 0%,rgba(196,150,90,0) 70%);animation:drift-2 95s linear infinite}
+.nebula-3{width:40vw;height:40vw;top:35%;left:30%;background:radial-gradient(circle,rgba(255,220,140,0.08) 0%,rgba(255,220,140,0) 70%);animation:drift-3 65s linear infinite}
+@keyframes drift-1{0%{transform:translate(0,0)}50%{transform:translate(4vw,3vw)}100%{transform:translate(0,0)}}
+@keyframes drift-2{0%{transform:translate(0,0)}50%{transform:translate(-5vw,-2vw)}100%{transform:translate(0,0)}}
+@keyframes drift-3{0%{transform:translate(0,0) scale(1)}50%{transform:translate(2vw,-3vw) scale(1.1)}100%{transform:translate(0,0) scale(1)}}
 
-@keyframes streak-1{
-  0%{transform:translate(0,0) rotate(-5deg);opacity:0}
-  6%{opacity:0}
-  10%{opacity:1}
-  16%{opacity:1}
-  22%{opacity:0}
-  100%{transform:translate(calc(100vw + 700px),-8vh) rotate(-5deg);opacity:0}
-}
-@keyframes streak-2{
-  0%{transform:translate(0,0) rotate(-12deg);opacity:0}
-  6%{opacity:0}
-  10%{opacity:1}
-  16%{opacity:1}
-  22%{opacity:0}
-  100%{transform:translate(calc(100vw + 700px),-24vh) rotate(-12deg);opacity:0}
-}
-@keyframes streak-3{
-  0%{transform:translate(0,0) rotate(188deg);opacity:0}
-  6%{opacity:0}
-  10%{opacity:1}
-  16%{opacity:1}
-  22%{opacity:0}
-  100%{transform:translate(calc(-100vw - 700px),12vh) rotate(188deg);opacity:0}
-}
-@keyframes streak-4{
-  0%{transform:translate(0,0) rotate(-18deg);opacity:0}
-  6%{opacity:0}
-  10%{opacity:1}
-  16%{opacity:1}
-  22%{opacity:0}
-  100%{transform:translate(calc(100vw + 700px),-32vh) rotate(-18deg);opacity:0}
-}
-@keyframes streak-5{
-  0%{transform:translate(0,0) rotate(175deg);opacity:0}
+html[data-theme="light"] .nebula-1{background:radial-gradient(circle,rgba(138,107,20,0.08) 0%,rgba(138,107,20,0) 70%)}
+html[data-theme="light"] .nebula-2{background:radial-gradient(circle,rgba(168,133,31,0.06) 0%,rgba(168,133,31,0) 70%)}
+html[data-theme="light"] .nebula-3{background:radial-gradient(circle,rgba(232,200,112,0.05) 0%,rgba(232,200,112,0) 70%)}
+
+/* Static star points rendered via radial gradients. This replaces the heavy
+   static starfield with two layered background-image sets so we get dozens of
+   stars for basically free (no DOM nodes). */
+.starfield{position:absolute;inset:0;pointer-events:none}
+.starfield-1{background-image:
+  radial-gradient(1px 1px at 14% 8%, rgba(242,235,217,0.75), transparent 50%),
+  radial-gradient(1px 1px at 28% 21%, rgba(242,235,217,0.5), transparent 50%),
+  radial-gradient(1.5px 1.5px at 38% 12%, rgba(232,200,112,0.7), transparent 50%),
+  radial-gradient(1px 1px at 52% 6%, rgba(242,235,217,0.65), transparent 50%),
+  radial-gradient(1px 1px at 67% 14%, rgba(242,235,217,0.45), transparent 50%),
+  radial-gradient(1.2px 1.2px at 79% 9%, rgba(242,235,217,0.8), transparent 50%),
+  radial-gradient(1px 1px at 91% 18%, rgba(232,200,112,0.55), transparent 50%),
+  radial-gradient(1px 1px at 7% 31%, rgba(242,235,217,0.6), transparent 50%),
+  radial-gradient(1.5px 1.5px at 22% 44%, rgba(242,235,217,0.8), transparent 50%),
+  radial-gradient(1px 1px at 33% 38%, rgba(232,200,112,0.45), transparent 50%),
+  radial-gradient(1px 1px at 46% 49%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1.2px 1.2px at 58% 33%, rgba(242,235,217,0.7), transparent 50%),
+  radial-gradient(1px 1px at 71% 47%, rgba(242,235,217,0.5), transparent 50%),
+  radial-gradient(1.5px 1.5px at 84% 41%, rgba(232,200,112,0.75), transparent 50%),
+  radial-gradient(1px 1px at 96% 53%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1px 1px at 11% 61%, rgba(242,235,217,0.6), transparent 50%),
+  radial-gradient(1px 1px at 24% 72%, rgba(242,235,217,0.7), transparent 50%),
+  radial-gradient(1.2px 1.2px at 37% 66%, rgba(232,200,112,0.5), transparent 50%),
+  radial-gradient(1px 1px at 49% 78%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1.5px 1.5px at 62% 69%, rgba(242,235,217,0.75), transparent 50%),
+  radial-gradient(1px 1px at 75% 83%, rgba(242,235,217,0.45), transparent 50%),
+  radial-gradient(1px 1px at 88% 73%, rgba(232,200,112,0.6), transparent 50%),
+  radial-gradient(1.2px 1.2px at 6% 89%, rgba(242,235,217,0.7), transparent 50%),
+  radial-gradient(1px 1px at 19% 94%, rgba(242,235,217,0.5), transparent 50%),
+  radial-gradient(1px 1px at 31% 86%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1.5px 1.5px at 44% 96%, rgba(232,200,112,0.7), transparent 50%),
+  radial-gradient(1px 1px at 57% 88%, rgba(242,235,217,0.6), transparent 50%),
+  radial-gradient(1px 1px at 69% 97%, rgba(242,235,217,0.45), transparent 50%),
+  radial-gradient(1.2px 1.2px at 82% 91%, rgba(242,235,217,0.65), transparent 50%),
+  radial-gradient(1px 1px at 95% 85%, rgba(232,200,112,0.5), transparent 50%);
+  opacity:0.7;animation:breathe-a 11s ease-in-out infinite}
+.starfield-2{background-image:
+  radial-gradient(1px 1px at 3% 17%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1.2px 1.2px at 17% 5%, rgba(232,200,112,0.65), transparent 50%),
+  radial-gradient(1px 1px at 42% 26%, rgba(242,235,217,0.5), transparent 50%),
+  radial-gradient(1.5px 1.5px at 61% 19%, rgba(242,235,217,0.75), transparent 50%),
+  radial-gradient(1px 1px at 74% 4%, rgba(242,235,217,0.6), transparent 50%),
+  radial-gradient(1px 1px at 88% 27%, rgba(232,200,112,0.5), transparent 50%),
+  radial-gradient(1.2px 1.2px at 4% 49%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1px 1px at 17% 56%, rgba(242,235,217,0.45), transparent 50%),
+  radial-gradient(1.5px 1.5px at 29% 43%, rgba(232,200,112,0.7), transparent 50%),
+  radial-gradient(1px 1px at 43% 59%, rgba(242,235,217,0.5), transparent 50%),
+  radial-gradient(1px 1px at 55% 52%, rgba(242,235,217,0.65), transparent 50%),
+  radial-gradient(1.2px 1.2px at 68% 41%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1px 1px at 81% 58%, rgba(232,200,112,0.45), transparent 50%),
+  radial-gradient(1.5px 1.5px at 94% 49%, rgba(242,235,217,0.7), transparent 50%),
+  radial-gradient(1px 1px at 5% 76%, rgba(242,235,217,0.5), transparent 50%),
+  radial-gradient(1px 1px at 18% 81%, rgba(232,200,112,0.6), transparent 50%),
+  radial-gradient(1.2px 1.2px at 30% 74%, rgba(242,235,217,0.55), transparent 50%),
+  radial-gradient(1px 1px at 42% 84%, rgba(242,235,217,0.45), transparent 50%),
+  radial-gradient(1.5px 1.5px at 54% 76%, rgba(242,235,217,0.65), transparent 50%),
+  radial-gradient(1px 1px at 66% 87%, rgba(232,200,112,0.55), transparent 50%),
+  radial-gradient(1.2px 1.2px at 78% 79%, rgba(242,235,217,0.6), transparent 50%),
+  radial-gradient(1px 1px at 92% 92%, rgba(242,235,217,0.45), transparent 50%);
+  opacity:0.5;animation:breathe-b 17s ease-in-out infinite;animation-delay:-7s}
+
+html[data-theme="light"] .starfield-1,html[data-theme="light"] .starfield-2{opacity:0}
+
+@keyframes breathe-a{0%,100%{opacity:0.7}50%{opacity:0.9}}
+@keyframes breathe-b{0%,100%{opacity:0.5}50%{opacity:0.75}}
+
+/* Shimmer stars: the DOM nodes actually animate (grow/shine). Using prime numbers
+   for delays so no two ever peak at the same beat. Each star uses a unique
+   keyframe offset so the sky never has two shines in a row at the same spot. */
+.star{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(242,235,217,0.9);box-shadow:0 0 4px 1px rgba(242,235,217,0.3);opacity:0;will-change:opacity,transform}
+html[data-theme="light"] .star{background:rgba(60,50,30,0.8);box-shadow:0 0 4px 1px rgba(60,50,30,0.2)}
+.star.gold{background:rgba(232,200,112,0.95);box-shadow:0 0 6px 2px rgba(232,200,112,0.4)}
+html[data-theme="light"] .star.gold{background:rgba(138,107,20,0.75);box-shadow:0 0 5px 1px rgba(138,107,20,0.25)}
+.star.big{width:4px;height:4px;box-shadow:0 0 10px 3px rgba(242,235,217,0.5)}
+.star.big.gold{box-shadow:0 0 12px 4px rgba(232,200,112,0.5)}
+
+@keyframes shine{0%,100%{opacity:0;transform:scale(0.7)}20%{opacity:0.95;transform:scale(1.3)}40%{opacity:0.6;transform:scale(1)}60%{opacity:0.2}}
+
+/* 18 shimmer stars, each with a unique prime-offset delay and unique duration
+   so the sky never repeats a pattern. Mix of sizes and colors. */
+.s01{top:6%;left:11%;animation:shine 7s ease-in-out infinite;animation-delay:-0.3s}
+.s02{top:14%;left:83%;animation:shine 11s ease-in-out infinite;animation-delay:-2.7s}
+.s03{top:19%;left:47%;animation:shine 13s ease-in-out infinite;animation-delay:-5.1s}
+.s04{top:27%;left:18%;animation:shine 8s ease-in-out infinite;animation-delay:-1.3s}
+.s05{top:32%;left:71%;animation:shine 10s ease-in-out infinite;animation-delay:-6.4s}
+.s06{top:38%;left:38%;animation:shine 14s ease-in-out infinite;animation-delay:-3.9s}
+.s07{top:41%;left:6%;animation:shine 9s ease-in-out infinite;animation-delay:-7.2s}
+.s08{top:46%;left:91%;animation:shine 12s ease-in-out infinite;animation-delay:-4.5s}
+.s09{top:53%;left:26%;animation:shine 15s ease-in-out infinite;animation-delay:-11.8s}
+.s10{top:58%;left:59%;animation:shine 7s ease-in-out infinite;animation-delay:-4.1s}
+.s11{top:62%;left:82%;animation:shine 13s ease-in-out infinite;animation-delay:-9.7s}
+.s12{top:68%;left:14%;animation:shine 9s ease-in-out infinite;animation-delay:-2.2s}
+.s13{top:73%;left:49%;animation:shine 16s ease-in-out infinite;animation-delay:-12.3s}
+.s14{top:78%;left:72%;animation:shine 11s ease-in-out infinite;animation-delay:-8.6s}
+.s15{top:83%;left:31%;animation:shine 14s ease-in-out infinite;animation-delay:-5.5s}
+.s16{top:87%;left:93%;animation:shine 8s ease-in-out infinite;animation-delay:-6.9s}
+.s17{top:91%;left:56%;animation:shine 12s ease-in-out infinite;animation-delay:-3.4s}
+.s18{top:95%;left:9%;animation:shine 10s ease-in-out infinite;animation-delay:-7.8s}
+
+/* Occasional shooting streak across the galaxy: rare, one at a time, from upper
+   left to lower right. Very long cycle so it feels like a treat, not a pattern. */
+.shooting{position:absolute;width:180px;height:1px;top:20%;left:-200px;background:linear-gradient(90deg,transparent 0%,rgba(232,200,112,0) 20%,rgba(232,200,112,0.8) 50%,rgba(255,220,140,0) 80%,transparent 100%);filter:blur(0.5px);opacity:0;animation:shoot 25s ease-in infinite;animation-delay:-8s}
+.shooting.s2{top:55%;animation:shoot 37s ease-in infinite;animation-delay:-22s;width:220px}
+@keyframes shoot{0%,90%{opacity:0;transform:translate(0,0) rotate(-15deg)}93%{opacity:1}100%{opacity:0;transform:translate(120vw,40vh) rotate(-15deg)}}
   6%{opacity:0}
   10%{opacity:1}
   16%{opacity:1}
@@ -173,15 +246,22 @@ footer{background:var(--bg);border-top:1px solid var(--bd);position:relative;z-i
 .caution-block{display:block;width:100%;text-align:center;padding:14px 20px}
 
 
-/* Sign-in button in nav */
-.nav-signin{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;background:transparent;border:1px solid var(--bd2);border-radius:100px;color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;font-weight:450;cursor:pointer;transition:all 0.18s cubic-bezier(0.34,1.56,0.64,1);margin-left:4px}
-.nav-signin:hover{background:var(--bg2);border-color:var(--ink3)}
-.nav-signin:active{transform:scale(0.95);transition-duration:0.06s}
+/* Sign-in button in nav - upgraded */
+.nav-signin{display:inline-flex;align-items:center;gap:8px;padding:7px 16px 7px 12px;background:linear-gradient(180deg,var(--bg-card) 0%,var(--bg2) 100%);border:1px solid var(--bd2);border-radius:100px;color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s cubic-bezier(0.34,1.56,0.64,1);margin-left:6px;position:relative;box-shadow:0 1px 2px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.04)}
+.nav-signin::before{content:'';position:absolute;inset:-1px;border-radius:100px;padding:1px;background:linear-gradient(135deg,rgba(232,200,112,0) 0%,rgba(232,200,112,0.25) 50%,rgba(232,200,112,0) 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.2s;pointer-events:none}
+.nav-signin:hover{background:linear-gradient(180deg,var(--bg2) 0%,var(--bg-card) 100%);border-color:rgba(232,200,112,0.4);color:var(--ink);box-shadow:0 2px 12px rgba(232,200,112,0.12),0 1px 0 rgba(255,255,255,0.05) inset}
+.nav-signin:hover::before{opacity:1}
+.nav-signin:active{transform:scale(0.96);transition-duration:0.06s}
+
+.nav-signin .signin-dot{width:16px;height:16px;border-radius:50%;background:transparent;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);position:relative;transition:all 0.2s;flex-shrink:0}
+.nav-signin .signin-dot::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--accent);opacity:0;transition:opacity 0.2s}
+.nav-signin:hover .signin-dot::after{opacity:0.35}
+
 .nav-signin.signed-in{padding:4px 14px 4px 4px;gap:8px}
-.nav-signin .signin-dot{width:7px;height:7px;border-radius:50%;background:var(--ink3);transition:background 0.2s}
-.nav-signin.signed-in .signin-dot{width:26px;height:26px;background:var(--accent);color:var(--bg);display:flex;align-items:center;justify-content:center;font-family:'Newsreader',serif;font-style:italic;font-size:13px;font-weight:500;overflow:hidden}
+.nav-signin.signed-in .signin-dot{width:26px;height:26px;border:none;background:var(--accent);color:var(--bg);font-family:'Newsreader',serif;font-style:italic;font-size:13px;font-weight:500;overflow:hidden}
+.nav-signin.signed-in .signin-dot::after{display:none}
 .nav-signin.signed-in .signin-dot img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.nav-signin.signed-in .signin-dot.guest{background:var(--ink3)}
+.nav-signin.signed-in .signin-dot.guest{background:linear-gradient(135deg,var(--ink3),var(--ink2));color:var(--bg)}
 
 /* Auth modal */
 .auth-overlay{position:fixed;inset:0;background:rgba(12,10,8,0.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:100;display:none;align-items:center;justify-content:center;padding:1rem}
