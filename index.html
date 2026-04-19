@@ -23,7 +23,6 @@ html[data-theme="dark"]{
   --accent-bg:rgba(232,200,112,0.12);
   --muted:#a89a81;
   --line:rgba(242,235,217,0.08);--line2:rgba(242,235,217,0.15);
-  --bd:rgba(242,235,217,0.08);--bd2:rgba(242,235,217,0.15);
   --grain:0.35;
   --blob-a:rgba(232,200,112,0.14);
   --blob-b:rgba(196,150,90,0.1);
@@ -37,7 +36,6 @@ html[data-theme="light"]{
   --accent-bg:rgba(138,107,20,0.1);
   --muted:#6c6450;
   --line:rgba(28,25,21,0.1);--line2:rgba(28,25,21,0.2);
-  --bd:rgba(28,25,21,0.1);--bd2:rgba(28,25,21,0.2);
   --grain:0.2;
   --blob-a:rgba(232,200,112,0.3);
   --blob-b:rgba(196,150,90,0.22);
@@ -62,7 +60,19 @@ body{
 
 /* Sharp streak lines, 15s recurrence, different directions */
 .bg-stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-html[data-theme="light"] 10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,10vh) scale(1.3);opacity:0}}
+.star{position:absolute;will-change:transform,opacity;opacity:0;height:2px;border-radius:100px}
+.star::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(232,200,112,0) 8%,rgba(232,200,112,0.9) 50%,rgba(255,220,140,0) 92%,transparent 100%);filter:blur(0.5px);border-radius:100px}
+html[data-theme="light"] .star::before{background:linear-gradient(90deg,transparent 0%,rgba(138,107,20,0) 8%,rgba(138,107,20,0.75) 50%,rgba(168,133,31,0) 92%,transparent 100%)}
+.star-1{width:320px;top:12%;left:-340px;animation:streak-1 15s linear infinite;animation-delay:0s}
+.star-2{width:260px;top:68%;left:-340px;animation:streak-2 15s linear infinite;animation-delay:-3s}
+.star-3{width:360px;top:30%;left:calc(100vw + 360px);animation:streak-3 15s linear infinite;animation-delay:-6s}
+.star-4{width:220px;top:85%;left:-340px;animation:streak-4 15s linear infinite;animation-delay:-9s}
+.star-5{width:300px;top:48%;left:calc(100vw + 360px);animation:streak-5 15s linear infinite;animation-delay:-12s}
+@keyframes streak-1{0%{transform:translate(0,0) rotate(-5deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(100vw + 700px),-8vh) rotate(-5deg);opacity:0}}
+@keyframes streak-2{0%{transform:translate(0,0) rotate(-12deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(100vw + 700px),-24vh) rotate(-12deg);opacity:0}}
+@keyframes streak-3{0%{transform:translate(0,0) rotate(188deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(-100vw - 700px),12vh) rotate(188deg);opacity:0}}
+@keyframes streak-4{0%{transform:translate(0,0) rotate(-18deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(100vw + 700px),-32vh) rotate(-18deg);opacity:0}}
+@keyframes streak-5{0%{transform:translate(0,0) rotate(175deg);opacity:0}6%{opacity:0}10%{opacity:1}16%{opacity:1}22%{opacity:0}100%{transform:translate(calc(-100vw - 700px),-6vh) rotate(175deg);opacity:0}}10%{opacity:1}90%{opacity:1}100%{transform:translate(140vw,10vh) scale(1.3);opacity:0}}
   50%{transform:translate(100px,-60px) scale(1.05)}
 }
 
@@ -499,31 +509,11 @@ footer{background:var(--bg);border-top:1px solid var(--line);margin-top:auto;pos
 <body>
 
 <div class="bg-stars">
-  <div class="nebula nebula-1"></div>
-  <div class="nebula nebula-2"></div>
-  <div class="nebula nebula-3"></div>
-  <div class="starfield starfield-1"></div>
-  <div class="starfield starfield-2"></div>
-  <div class="star gold big s01"></div>
-  <div class="star s02"></div>
-  <div class="star s03"></div>
-  <div class="star gold s04"></div>
-  <div class="star s05"></div>
-  <div class="star big s06"></div>
-  <div class="star gold s07"></div>
-  <div class="star s08"></div>
-  <div class="star s09"></div>
-  <div class="star gold big s10"></div>
-  <div class="star s11"></div>
-  <div class="star s12"></div>
-  <div class="star gold s13"></div>
-  <div class="star big s14"></div>
-  <div class="star s15"></div>
-  <div class="star gold s16"></div>
-  <div class="star s17"></div>
-  <div class="star s18"></div>
-  <div class="shooting"></div>
-  <div class="shooting s2"></div>
+  <div class="star star-1"></div>
+  <div class="star star-2"></div>
+  <div class="star star-3"></div>
+  <div class="star star-4"></div>
+  <div class="star star-5"></div>
 </div>
 
 <nav>
